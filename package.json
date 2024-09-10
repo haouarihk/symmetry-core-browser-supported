@@ -22,10 +22,6 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "package": "pkg ./dist/symmetry.js",
-    "start": "node dist/symmetry.js",
-    "dev": "ts-node src/symmetry.ts",
-    "debug": "ts-node --inspect src/symmetry.ts",
     "lint": "eslint . --ext .ts,.js --fix",
     "prepublishOnly": "npm run build"
   },
@@ -35,7 +31,6 @@
     "hypercore-crypto": "^3.4.2",
     "hyperdht": "^6.15.4",
     "hyperswarm": "^4.8.0",
-    "js-yaml": "^4.1.0",
     "sqlite3": "^5.1.7",
     "ws": "^8.18.0"
   },

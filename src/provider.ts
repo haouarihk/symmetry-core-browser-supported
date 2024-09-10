@@ -3,7 +3,6 @@ import { pipeline } from "stream/promises";
 import chalk from "chalk";
 import Hyperswarm from "hyperswarm";
 import crypto from "hypercore-crypto";
-import fs from "node:fs";
 
 import { ConfigManager } from "./config";
 import {
@@ -13,7 +12,7 @@ import {
   safeParseStreamResponse,
 } from "./utils";
 import { logger } from "./logger";
-import { Peer, ProviderMessage, InferenceRequest, Message } from "./types";
+import { Peer, ProviderMessage, InferenceRequest, Message, ProviderConfig } from "./types";
 import { PROVIDER_HELLO_TIMEOUT, serverMessageKeys } from "./constants";
 
 export class SymmetryProvider {
@@ -27,9 +26,9 @@ export class SymmetryProvider {
   private _serverSwarm: Hyperswarm | null = null;
   private _serverPeer: Peer | null = null;
 
-  constructor(configPath: string) {
-    logger.info(`🔗 Initializing client using config file: ${configPath}`);
-    this._config = new ConfigManager(configPath);
+  constructor(config: ProviderConfig) {
+    logger.info(`🔗 Initializing client using config file: ${config}`);
+    this._config = new ConfigManager(config);
     this._isPublic = this._config.get("public");
   }
 
@@ -368,21 +367,21 @@ export class SymmetryProvider {
     peer: Peer,
     messages: Message[]
   ) {
-    fs.writeFile(
-      `${this._config.get("path")}/${peer.publicKey.toString("hex")}-${
-        this._conversationIndex
-      }.json`,
-      JSON.stringify([
-        ...messages,
-        {
-          role: "assistant",
-          content: completion,
-        },
-      ]),
-      () => {
-        logger.info(`📝 Completion saved to file`);
-      }
-    );
+    // fs.writeFile(
+    //   `${this._config.get("path")}/${peer.publicKey.toString("hex")}-${
+    //     this._conversationIndex
+    //   }.json`,
+    //   JSON.stringify([
+    //     ...messages,
+    //     {
+    //       role: "assistant",
+    //       content: completion,
+    //     },
+    //   ]),
+    //   () => {
+    //     logger.info(`📝 Completion saved to file`);
+    //   }
+    // );
   }
 
   private buildStreamRequest(messages: Message[]) {

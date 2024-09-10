@@ -1,14 +1,10 @@
 import { ProviderConfig  } from "./types";
-import fs from "fs";
-import yaml from "js-yaml";
 
 export class ConfigManager {
   private config: ProviderConfig;
 
-  constructor(configPath: string) {
-    const configFile = fs.readFileSync(configPath, "utf8");
-    const config = yaml.load(configFile) as ProviderConfig;
-    this.config = config
+  constructor(config: ProviderConfig) {
+    this.config = config;
     this.validate();
   }
 
